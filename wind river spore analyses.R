@@ -26,7 +26,7 @@ summary(lm(wing.chord~Tarsal.L, data=birds)) #body size metrics correlated, shou
 birdsmod<-glm(totgreen~behavior+Tarsal.L, family = poisson, data=birds)
 summary(birdsmod)
 anova(birdsmod, test="Chisq")
-pchisq(deviance(birdsmod), df.residual(birdsmod), lower=F) #BAD FIT!
+pchisq(deviance(birdsmod), df.residual(birdsmod), lower=F) #!
 
 plot(rstudent(birdsmod)~birdsmod$fitted.values)
 
@@ -94,14 +94,14 @@ sum(residuals(birdsmod, type = "pearson")^2)
 birdsquasi<-glm(totgreen~behavior+Tarsal.L, family = quasipoisson, data=birds)
 summary(birdsquasi)
 anova(birdsquasi, test="Chisq")
-pchisq(deviance(birdsquasi), df.residual(birdsquasi), lower=F) #BAD FIT!
+pchisq(deviance(birdsquasi), df.residual(birdsquasi), lower=F) 
 plot(rstudent(birdsquasi)~birdsquasi$fitted.values)
 
 
 birdsnegbi<-glm.nb(totgreen~behavior+Tarsal.L, data=birds)
 summary(birdsnegbi)
 anova(birdsnegbi, test="Chisq")
-pchisq(deviance(birdsnegbi), df.residual(birdsnegbi), lower=F) #OK FIT!
+pchisq(deviance(birdsnegbi), df.residual(birdsnegbi), lower=F) 
 birdsnegbi0<-glm.nb(totgreen~1, data=subset(birds, Tarsal.L != "NA"))
 1-(deviance(birdsnegbi)/deviance(birdsnegbi0)) #0.010 (goodness of fit ~R2)
 m1<-update(birdsnegbi, .~. - Tarsal.L)
@@ -134,9 +134,9 @@ write.csv(mod1overalltidy, "GLM summaries/mod1overall.csv")
 totbytaxon<-glm.nb(totgreen~Taxon.group, data=birds)
 summary(totbytaxon)
 anova(totbytaxon, test="Chisq")
-pchisq(deviance(totbytaxon), df.residual(totbytaxon), lower=F) #DECENT FIT!
+pchisq(deviance(totbytaxon), df.residual(totbytaxon), lower=F) #
 totbytaxon0<-glm.nb(totgreen~1, data=birds)
-1-(deviance(totbytaxon)/deviance(totbytaxon0)) #goodness of fit (r2) is 0.017
+1-(deviance(totbytaxon)/deviance(totbytaxon0)) 
 mod2overall<-anova(totbytaxon, totbytaxon0, test="Chisq") #significantly better than null
 
 mod2factors<-drop1(totbytaxon, test="LRT") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -158,9 +158,9 @@ write.csv(mod2overalltidy, "GLM summaries/mod2overall.csv")
 legsporebytarsalbehavior<-glm.nb(leggreen~behavior+Tarsal.L, data=birds)
 summary(legsporebytarsalbehavior)
 anova(legsporebytarsalbehavior, test="Chisq")
-pchisq(deviance(legsporebytarsalbehavior), df.residual(legsporebytarsalbehavior), lower=F) #DECENT FIT!
+pchisq(deviance(legsporebytarsalbehavior), df.residual(legsporebytarsalbehavior), lower=F) #
 legsporebytarsalbehavior0<-glm.nb(leggreen~1, data=subset(birds, Tarsal.L != "NA"))
-1-(deviance(legsporebytarsalbehavior)/deviance(legsporebytarsalbehavior0)) #goodness of fit (r2) is -0.013
+1-(deviance(legsporebytarsalbehavior)/deviance(legsporebytarsalbehavior0))
 anova(legsporebytarsalbehavior, legsporebytarsalbehavior0, test="Chisq") #significantly better than null
 
 
@@ -171,9 +171,9 @@ drop1(legsporebytarsalbehavior, test="LRT") #TWO WAY ANOVA DROPS EACH PREDICTOR 
 legsporebytarsal<-glm.nb(leggreen~Tarsal.L, data=birds)
 summary(legsporebytarsal)
 anova(legsporebytarsal, test="Chisq")
-pchisq(deviance(legsporebytarsal), df.residual(legsporebytarsal), lower=F) #DECENT FIT!
+pchisq(deviance(legsporebytarsal), df.residual(legsporebytarsal), lower=F) 
 legsporebytarsal0<-glm.nb(leggreen~1, data=subset(birds, Tarsal.L != "NA"))
-1-(deviance(legsporebytarsal)/deviance(legsporebytarsal0)) #goodness of fit (r2) is -.0192
+1-(deviance(legsporebytarsal)/deviance(legsporebytarsal0)) 
 legmod1overall<-anova(legsporebytarsal0, legsporebytarsal, test="LR") #significantly better than null
 
 legmod1parameters<-drop1(legsporebytarsal, test="LRT") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -191,9 +191,9 @@ write.csv(legmod1overalltidy, "GLM summaries/legmod1overall.csv")
 legsporebytaxonleg<-glm.nb(leggreen~Taxon.group+Tarsal.L, data=birds)
 summary(legsporebytaxonleg)
 anova(legsporebytaxonleg, test="Chisq")
-pchisq(deviance(legsporebytaxonleg), df.residual(legsporebytaxonleg), lower=F) #DECENT FIT!
+pchisq(deviance(legsporebytaxonleg), df.residual(legsporebytaxonleg), lower=F) #
 legsporebytaxonleg0<-glm.nb(leggreen~1, data=subset(birds, Tarsal.L != "NA"))
-1-(deviance(legsporebytaxonleg)/deviance(legsporebytaxonleg0)) #goodness of fit (r2) is -.0087
+1-(deviance(legsporebytaxonleg)/deviance(legsporebytaxonleg0)) 
 anova(legsporebytaxonleg, legsporebytaxonleg0, test="Chisq") #significantly better than null
 
 drop1(legsporebytaxonleg, test="F") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -202,9 +202,9 @@ drop1(legsporebytaxonleg, test="F") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATE
 legsporebytaxon<-glm.nb(leggreen~Taxon.group, data=birds)
 summary(legsporebytaxon)
 anova(legsporebytaxon, test="Chisq")
-pchisq(deviance(legsporebytaxon), df.residual(legsporebytaxon), lower=F) #DECENT FIT!
+pchisq(deviance(legsporebytaxon), df.residual(legsporebytaxon), lower=F) 
 legsporebytaxon0<-glm.nb(leggreen~1, data=birds)
-1-(deviance(legsporebytaxon)/deviance(legsporebytaxon0)) #goodness of fit (r2) is -.021
+1-(deviance(legsporebytaxon)/deviance(legsporebytaxon0)) 
 legmod2overall<-anova(legsporebytaxon, legsporebytaxon0, test="Chisq") #significantly better than null
 legmod2overall
 legmod2parameters<-drop1(legsporebytaxon, test="LRT") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -224,9 +224,9 @@ write.csv(legmod2overalltidy, "GLM summaries/legmod2overall.csv")
 rectsporebytarsalbehavior<-glm.nb(rectgreen~behavior+Tarsal.L, data=birds)
 summary(rectsporebytarsalbehavior)
 anova(rectsporebytarsalbehavior, test="Chisq")
-pchisq(deviance(rectsporebytarsalbehavior), df.residual(rectsporebytarsalbehavior), lower=F) #DECENT FIT!
+pchisq(deviance(rectsporebytarsalbehavior), df.residual(rectsporebytarsalbehavior), lower=F) 
 rectsporebytarsalbehavior0<-glm.nb(rectgreen~1, data=subset(birds, Tarsal.L != "NA"))
-1-(deviance(rectsporebytarsalbehavior)/deviance(rectsporebytarsalbehavior0)) #goodness of fit (r2) is -.004
+1-(deviance(rectsporebytarsalbehavior)/deviance(rectsporebytarsalbehavior0)) 
 anova(rectsporebytarsalbehavior, rectsporebytarsalbehavior0, test="Chisq") #significantly better than null
 
 drop1(rectsporebytarsalbehavior, test="F") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -236,9 +236,9 @@ drop1(rectsporebytarsalbehavior, test="F") #TWO WAY ANOVA DROPS EACH PREDICTOR S
 rectsporebybehavior<-glm.nb(rectgreen~behavior, data=birds)
 summary(rectsporebybehavior)
 anova(rectsporebybehavior, test="Chisq")
-pchisq(deviance(rectsporebybehavior), df.residual(rectsporebybehavior), lower=F) #DECENT FIT!
+pchisq(deviance(rectsporebybehavior), df.residual(rectsporebybehavior), lower=F) 
 rectsporebybehavior0<-glm.nb(rectgreen~1, data=birds)
-1-(deviance(rectsporebybehavior)/deviance(rectsporebybehavior0)) #goodness of fit (r2) is -.0005
+1-(deviance(rectsporebybehavior)/deviance(rectsporebybehavior0)) 
 rectmod1overall<-anova(rectsporebybehavior, rectsporebybehavior0, test="Chisq") #significantly better than null
 rectmod1parameters
 rectmod1parameters<-drop1(rectsporebybehavior, test="LRT") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -257,9 +257,9 @@ write.csv(rectmod1overalltidy, "GLM summaries/rectmod1overall.csv")
 rectsporebytaxonrect<-glm.nb(rectgreen~Taxon.group+Tarsal.L, data=birds)
 summary(rectsporebytaxonrect)
 anova(rectsporebytaxonrect, test="Chisq")
-pchisq(deviance(rectsporebytaxonrect), df.residual(rectsporebytaxonrect), lower=F) #DECENT FIT!
+pchisq(deviance(rectsporebytaxonrect), df.residual(rectsporebytaxonrect), lower=F) 
 rectsporebytaxonrect0<-glm.nb(rectgreen~1, data=subset(birds, Tarsal.L != "NA"))
-1-(deviance(rectsporebytaxonrect)/deviance(rectsporebytaxonrect0)) #goodness of fit (r2) is 0.607
+1-(deviance(rectsporebytaxonrect)/deviance(rectsporebytaxonrect0)) 
 anova(rectsporebytaxonrect, rectsporebytaxonrect0, test="Chisq") #significantly better than null
 
 drop1(rectsporebytaxonrect, test="F") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -268,9 +268,9 @@ drop1(rectsporebytaxonrect, test="F") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARA
 rectsporebytaxon<-glm.nb(rectgreen~Taxon.group, data=birds)
 summary(rectsporebytaxon)
 anova(rectsporebytaxon, test="Chisq")
-pchisq(deviance(rectsporebytaxon), df.residual(rectsporebytaxon), lower=F) #DECENT FIT!
+pchisq(deviance(rectsporebytaxon), df.residual(rectsporebytaxon), lower=F) 
 rectsporebytaxon0<-glm.nb(rectgreen~1, data=birds)
-1-(deviance(rectsporebytaxon)/deviance(rectsporebytaxon0)) #goodness of fit (r2) is 0.0085
+1-(deviance(rectsporebytaxon)/deviance(rectsporebytaxon0))
 rectmod2overall<-anova(rectsporebytaxon, rectsporebytaxon0, test="Chisq") #significantly better than null
 
 rectmod2overall
@@ -330,9 +330,9 @@ sumsmall
 totalalpha<-glm.nb(totgreen~Alpha+Tarsal.L, data=smallset)
 summary(totalalpha)
 anova(totalalpha, test="Chisq")
-pchisq(deviance(totalalpha), df.residual(totalalpha), lower=F) #BAD FIT
+pchisq(deviance(totalalpha), df.residual(totalalpha), lower=F) 
 totalalpha0<-glm.nb(totgreen~1, data=subset(smallset, Tarsal.L != "NA"))
-1-(deviance(totalalpha)/deviance(totalalpha0)) #goodness of fit (r2) is 0.004
+1-(deviance(totalalpha)/deviance(totalalpha0)) 
 anova(totalalpha, totalalpha0, test="Chisq") #significantly better than null
 
 drop1(totalalpha, test="F") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -342,9 +342,9 @@ plot(rstudent(totalalpha)~totalalpha$fitted.values)
 legalpha<-glm.nb(leggreen~Alpha+Tarsal.L, data=smallset)
 summary(legalpha)
 anova(legalpha, test="Chisq")
-pchisq(deviance(legalpha), df.residual(legalpha), lower=F) #DECENT FIT!
+pchisq(deviance(legalpha), df.residual(legalpha), lower=F) 
 legalpha0<-glm.nb(leggreen~1, data=subset(smallset, Tarsal.L != "NA"))
-1-(deviance(legalpha)/deviance(legalpha0)) #goodness of fit (r2) is 
+1-(deviance(legalpha)/deviance(legalpha0))
 anova(legalpha, legalpha0, test="Chisq") #significantly better than null
 
 drop1(legalpha, test="F") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -354,9 +354,9 @@ plot(rstudent(legalpha)~legalpha$fitted.values)
 rectalpha<-glm.nb(rectgreen~Alpha+Tarsal.L, data=smallset)
 summary(rectalpha)
 anova(rectalpha, test="Chisq")
-pchisq(deviance(rectalpha), df.residual(rectalpha), lower=F) #DECENT FIT!
+pchisq(deviance(rectalpha), df.residual(rectalpha), lower=F) 
 rectalpha0<-glm.nb(rectgreen~1, data=subset(smallset, Tarsal.L != "NA"))
-1-(deviance(rectalpha)/deviance(rectalpha0)) #goodness of fit (r2) is 
+1-(deviance(rectalpha)/deviance(rectalpha0))
 anova(rectalpha, rectalpha0, test="Chisq") #significantly better than null
 
 drop1(rectalpha, test="F") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -370,9 +370,9 @@ plot(rstudent(rectalpha)~rectalpha$fitted.values)
 totalalpha1<-glm.nb(totgreen~Alpha, data=smallset)
 summary(totalalpha1)
 anova(totalalpha1, test="Chisq")
-pchisq(deviance(totalalpha1), df.residual(totalalpha1), lower=F) #borderline fit
+pchisq(deviance(totalalpha1), df.residual(totalalpha1), lower=F) 
 totalalpha10<-glm.nb(totgreen~1, data=smallset)
-1-(deviance(totalalpha1)/deviance(totalalpha10)) #goodness of fit (r2) is 0.004
+1-(deviance(totalalpha1)/deviance(totalalpha10)) 
 alphamod1overall<-anova(totalalpha1, totalalpha10, test="Chisq") #significantly better than null
 
 alphamod1parameters<-drop1(totalalpha1, test="LRT") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -390,9 +390,9 @@ write.csv(alphamod1overalltidy, "GLM summaries/totalalphaoverall.csv")
 legalpha1<-glm.nb(leggreen~Alpha, data=smallset)
 summary(legalpha1)
 anova(legalpha1, test="Chisq")
-pchisq(deviance(legalpha1), df.residual(legalpha1), lower=F) #DECENT FIT!
+pchisq(deviance(legalpha1), df.residual(legalpha1), lower=F) 
 legalpha10<-glm.nb(leggreen~1, data=smallset)
-1-(deviance(legalpha1)/deviance(legalpha10)) #goodness of fit (r2) is 0.65
+1-(deviance(legalpha1)/deviance(legalpha10)) 
 alpha1legmodoverall<-anova(legalpha1, legalpha10, test="Chisq") #significantly better than null
 
 alpha1legmodparameters<-drop1(legalpha1, test="LRT") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -412,9 +412,9 @@ write.csv(alpha1legmodoveralltidy, "GLM summaries/legalphaoverall.csv")
 rectalpha1<-glm.nb(rectgreen~Alpha, data=smallset)
 summary(rectalpha1)
 anova(rectalpha1, test="Chisq")
-pchisq(deviance(rectalpha1), df.residual(rectalpha1), lower=F) #DECENT FIT!
+pchisq(deviance(rectalpha1), df.residual(rectalpha1), lower=F) 
 rectalpha10<-glm.nb(rectgreen~1, data=smallset)
-1-(deviance(rectalpha1)/deviance(rectalpha10)) #goodness of fit (r2) is 0.029
+1-(deviance(rectalpha1)/deviance(rectalpha10)) 
 rectalphaoverall<-anova(rectalpha1, rectalpha10, test="Chisq") #significantly better than null
 
 rectalphaparameters<-drop1(rectalpha1, test="LRT") #TWO WAY ANOVA DROPS EACH PREDICTOR SEPARATELY
@@ -442,7 +442,7 @@ for(i in levels(nonzero$Alpha)){
 speciesmod<-glm.nb(totgreen~Alpha, data = nonzero)
 summary(speciesmod)
 anova(speciesmod)
-pchisq(deviance(speciesmod), df.residual(speciesmod), lower= F) # significant, bad fit
+pchisq(deviance(speciesmod), df.residual(speciesmod), lower= F) 
 plot(rstudent(speciesmod))
 
 
